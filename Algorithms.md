@@ -62,7 +62,45 @@ class Solution {
 
 两个数均从低位开始加，对每一个数位进行与其进位进行计算。
 
+**3. Longest Substring Without Repeating Characters**
 
+标准的滑动窗口思想，两个指针均从左移动，保持i,j之间的段不含重复字符，右指针移动出现重复字符则移动左指针，找到最大的一个窗口。
+
+```java
+数组:
+public class Solution {
+    public int lengthOfLongestSubstring(String s) {
+        int n = s.length(), ans = 0;
+        int[] index = new int[128]; // current index of character
+        // try to extend the range [i, j]
+        for (int j = 0, i = 0; j < n; j++) {
+            i = Math.max(index[s.charAt(j)], i);
+            ans = Math.max(ans, j - i + 1);
+            index[s.charAt(j)] = j + 1;
+        }
+        return ans;
+    }
+}
+HashMap:
+import java.util.HashMap;
+class Solution {
+    public int lengthOfLongestSubstring(String s) {
+        if(s.length()==0){
+            return 0;
+        }
+        HashMap<Character,Integer> h = new HashMap<Character,Integer>();
+        int max = 0;
+        for(int i=0,j=0;i<s.length();i++){
+            if(h.containsKey(s.charAt(i))){
+                j = Math.max(j,h.get(s.charAt(i))+1);
+            }
+            h.put(s.charAt(i),i);
+            max = Math.max(max,i-j+1);
+        }
+        return max; 
+    }
+}
+```
 
 
 
