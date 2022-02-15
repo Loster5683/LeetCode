@@ -33,4 +33,21 @@ class SolutionTestTest extends Solution {
     void testPermute() {
         System.out.println(permute(DataStructBuilder.initIntArray("[1,2,3]")));
     }
+
+    @Test
+    void testSolveNQueens() {
+        System.out.println(solveNQueens(5).size() == 10);
+    }
+
+    @Test
+    void testMinDepth() {
+        System.out.println(minDepth(DataStructBuilder.initNodeTree("[3,9,20,null,null,15,7]")));
+    }
+
+    @Test
+    void testOpenLock() {
+        System.out.println(openLock(DataStructBuilder.initStringArray("[\"8888\"]"), "0009"));
+    }
+
+
 }
