@@ -1,12 +1,9 @@
 package solutions.base;
 
 
-import com.sun.xml.internal.fastinfoset.util.StringArray;
 
-import java.util.ArrayDeque;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Queue;
+import java.util.*;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public class DataStructBuilder {
@@ -68,8 +65,46 @@ public class DataStructBuilder {
 
     public static String[] initStringArray(String nodes) {
         nodes = nodes.replace("[", "").replace("]", "").replace("\"", "");
-        nodes = nodes.replace(']', ' ');
-        nodes = nodes.replace('\"', ' ');
         return nodes.trim().split(",");
+    }
+
+    public static List<?> initArray(String value, Function<String, ?> mapper) {
+        return Arrays.stream(value.trim().split(",")).map(mapper).collect(Collectors.toList());
+    }
+
+    public static char[] initCharArray(String value) {
+        value = value.replace("[", "").replace("]", "").replace("\"", "");
+        List<Character> list = (List<Character>) initArray(value, e -> e.charAt(0));
+        char[] result = new char[list.size()];
+        for (int i = 0; i < list.size(); i++) {
+            result[i] = list.get(i);
+        }
+        return result;
+    }
+
+    public static char[][] init2DCharArray(String value) {
+        value = value.replace("[[", "").replace("]]", "");
+        String[] strings = value.split("],\\[");
+        int rows = strings.length;
+        int cols = strings[0].split(",").length;
+        char[][] result = new char[rows][cols];
+        for (int i = 0; i < strings.length; i++) {
+            char[] t = initCharArray(strings[i]);
+            result[i] = t;
+        }
+        return result;
+    }
+
+    public static int[][] init2DIntArray(String value) {
+        value = value.replace("[[", "").replace("]]", "");
+        String[] strings = value.split("],\\[");
+        int rows = strings.length;
+        int cols = strings[0].split(",").length;
+        int[][] result = new int[rows][cols];
+        for (int i = 0; i < strings.length; i++) {
+            int[] t = initIntArray(strings[i]);
+            result[i] = t;
+        }
+        return result;
     }
 }

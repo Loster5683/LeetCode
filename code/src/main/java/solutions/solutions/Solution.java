@@ -344,6 +344,263 @@ public class Solution {
         return new String(chars);
     }
 
+    //543. Diameter of Binary Tree
+    int maxlen = 0;
+    public int diameterOfBinaryTree(TreeNode root) {
+        maxDepth(root);
+        return maxlen;
+    }
+
+    public int maxDepth(TreeNode root) {
+        if(root == null) {
+            return 0;
+        }
+        int leftDepth = maxDepth(root.left);
+        int rightDepth = maxDepth(root.right);
+        maxlen = Math.max(maxlen, leftDepth + rightDepth);
+        return Math.max(leftDepth, rightDepth) + 1;
+    }
+
+    //23. Merge k Sorted Lists
+    public ListNode mergeKLists(ListNode[] lists) {
+        if (lists.length == 0) {
+            return null;
+        }
+        ListNode dummy = new ListNode(-1);
+        ListNode p = dummy;
+        PriorityQueue<ListNode> priorityQueue = new PriorityQueue<>(lists.length, Comparator.comparingInt(a -> a.val));
+        for (ListNode listNode : lists) {
+            if (listNode != null) {
+                priorityQueue.offer(listNode);
+            }
+        }
+        if (priorityQueue.isEmpty()) {
+            return null;
+        }
+        while (!priorityQueue.isEmpty()) {
+            ListNode min = priorityQueue.poll();
+            if (min.next != null) {
+                priorityQueue.offer(min.next);
+            }
+            p.next = min;
+            p = p.next;
+        }
+        return dummy.next;
+    }
+
+    //141. Linked List Cycle
+    public boolean hasCycle(ListNode head) {
+        if (head == null) {
+            return false;
+        }
+        ListNode p1 = head;
+        ListNode p2 = head;
+        while(p2 != null && p2.next != null) {
+            p1 = p1.next;
+            p2 = p2.next.next;
+            if (p1 == p2) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    //142. Linked List Cycle II
+    public ListNode detectCycle(ListNode head) {
+        if (head == null) {
+            return null;
+        }
+        ListNode p1 = head;
+        ListNode p2 = head;
+        while(p2 != null && p2.next != null) {
+            p1 = p1.next;
+            p2 = p2.next.next;
+            if (p1 == p2) {
+                p1 = head;
+                while(p1 != p2) {
+                    p1 = p1.next;
+                    p2 = p2.next;
+                }
+                return p1;
+            }
+        }
+        return null;
+    }
+
+    //200. Number of Islands
+    public int numIslands(char[][] grid) {
+        int num = 0;
+        for(int i = 0; i < grid.length; i++) {
+            for(int j = 0; j < grid[0].length; j++) {
+                if(grid[i][j] == '1') {
+                    num++;
+                    dfs(grid, i, j);
+                }
+            }
+        }
+        return num;
+    }
+
+    public void dfs(char[][] grid, int i, int j) {
+        if(grid[i][j] == '0') {
+            return;
+        }
+        grid[i][j] = '0';
+        if(i - 1 >= 0) {
+            dfs(grid, i -1, j);
+        }
+        if(i + 1 < grid.length) {
+            dfs(grid, i + 1, j);
+        }
+        if(j - 1 >= 0) {
+            dfs(grid, i, j - 1);
+        }
+        if(j + 1 < grid[0].length) {
+            dfs(grid, i, j + 1);
+        }
+    }
+
+    //1254. Number of Closed Islands
+    public int closedIsland(int[][] grid) {
+        int num = 0;
+        for(int i = 0; i < grid.length; i++) {
+            for(int j = 0; j < grid[0].length; j++) {
+                if(grid[i][j] == 0) {
+                    if (dfs2(grid, i, j)) {
+                        num++;
+                    }
+                }
+            }
+        }
+        return num;
+    }
+
+    public boolean dfs2(int[][] grid, int i, int j) {
+        boolean notNear = true;
+        if(grid[i][j] == 1) {
+            return true;
+        }
+        if (i == 0 || j == 0 || i == grid.length - 1 || j == grid[0].length - 1) {
+            notNear = false;
+        }
+        grid[i][j] = 1;
+
+        if(i - 1 >= 0) {
+            notNear &= dfs2(grid, i -1, j);
+        }
+        if(i + 1 < grid.length) {
+            notNear &= dfs2(grid, i + 1, j);
+        }
+        if(j - 1 >= 0) {
+            notNear &= dfs2(grid, i, j - 1);
+        }
+        if(j + 1 < grid[0].length) {
+            notNear &= dfs2(grid, i, j + 1);
+        }
+        return notNear;
+    }
+
+    //1020. Number of Enclaves 与1254类似，不过是求封闭岛屿面积和，而不是岛屿个数
+    //从所有边出发能通过1连通的点都置0，剩下的就是孤立岛屿
+    public int numEnclaves(int[][] grid) {
+        int num = 0;
+        for(int i = 0; i < grid.length; i++) {
+            for(int j = 0; j < grid[0].length; j++) {
+                if(i == 0 || j == 0 || i == grid.length - 1 || j == grid[0].length - 1) {
+                    dfs3(grid, i, j);
+                }
+            }
+        }
+        for(int i = 0; i < grid.length; i++) {
+            for(int j = 0; j < grid[0].length; j++) {
+                num += grid[i][j];
+            }
+        }
+
+        return num;
+    }
+
+    public void dfs3(int[][] grid, int i, int j) {
+        if(i >= 0 && i <= grid.length - 1 && j >= 0 && j <= grid[0].length - 1 && grid[i][j] == 1) {
+            grid[i][j] = 0;
+            dfs3(grid, i -1, j);
+            dfs3(grid, i + 1, j);
+            dfs3(grid, i, j - 1);
+            dfs3(grid, i, j + 1);
+        }
+    }
+
+    //695. Max Area of Island
+    public int maxAreaOfIsland(int[][] grid) {
+        int num = 0;
+        for(int i = 0; i < grid.length; i++) {
+            for(int j = 0; j < grid[0].length; j++) {
+                if(grid[i][j] == 1) {
+                    int s = dfs4(grid, i, j);
+                    if (s > 0) {
+                        num = Math.max(s, num);
+                    }
+                }
+            }
+        }
+        return num;
+    }
+
+    public int dfs4(int[][] grid, int i, int j) {
+        if(grid[i][j] == 0) {
+            return 0;
+        }
+        grid[i][j] = 0;
+
+        int t = 0;
+        if(i - 1 >= 0) {
+            t += dfs4(grid, i -1, j);
+        }
+        if(i + 1 < grid.length) {
+            t += dfs4(grid, i + 1, j);
+        }
+        if(j - 1 >= 0) {
+            t += dfs4(grid, i, j - 1);
+        }
+        if(j + 1 < grid[0].length) {
+            t += dfs4(grid, i, j + 1);
+        }
+        return 1 + t;
+    }
+
+    //1905. Count Sub Islands
+    public int countSubIslands(int[][] grid1, int[][] grid2) {
+        int num = 0;
+        for(int i = 0; i < grid2.length; i++) {
+            for (int j = 0; j < grid2[0].length; j++) {
+                if (grid2[i][j] == 1) {
+                    if (dfs5(grid2, grid1, i, j)) {
+                        num++;
+                    }
+                }
+            }
+        }
+        return num;
+    }
+
+    private boolean dfs5(int[][] grid2, int[][] grid1, int i, int j) {
+        if (i < 0 || j < 0 || i > grid2.length - 1 || j > grid2[0].length - 1) {
+            return true;
+        }
+        boolean result = false;
+        if (grid2[i][j] == 0) {
+            result = true;
+        } else if (grid1[i][j] >= grid2[i][j]) {
+            result = true;
+            grid1[i][j] = 0;
+            grid2[i][j] = 0;
+            result &= dfs5(grid2, grid1, i - 1, j);
+            result &= dfs5(grid2, grid1, i + 1, j);
+            result &= dfs5(grid2, grid1, i, j - 1);
+            result &= dfs5(grid2, grid1, i, j + 1);
+        }
+        return result;
+    }
 
     public ListNode insertionSortList(ListNode head) {
         ListNode dummy = new ListNode();
