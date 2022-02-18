@@ -583,7 +583,7 @@ public class Solution {
         return num;
     }
 
-    private boolean dfs5(int[][] grid2, int[][] grid1, int i, int j) {
+    public boolean dfs5(int[][] grid2, int[][] grid1, int i, int j) {
         if (i < 0 || j < 0 || i > grid2.length - 1 || j > grid2[0].length - 1) {
             return true;
         }
@@ -600,6 +600,153 @@ public class Solution {
             result &= dfs5(grid2, grid1, i, j + 1);
         }
         return result;
+    }
+
+    //76. Minimum Window Substring
+    public String minWindow(String s, String t) {
+        Map<Character, Integer> need = new HashMap<>();
+        Map<Character, Integer> current = new HashMap<>();
+        if (t.length() > s.length() || s.length() == 0) {
+            return "";
+        }
+        for (char c : t.toCharArray()) {
+            need.merge(c, 1, Integer::sum);
+        }
+        char[] all = s.toCharArray();
+        int i = 0, j = 0;
+        int valid = 0;
+        int start = 0, len = Integer.MAX_VALUE;
+        while (j < s.length()) {
+            char c = all[j];
+            j++;
+            if (need.containsKey(c)) {
+                current.merge(c, 1, Integer::sum);
+                if (current.get(c).equals(need.get(c))) {
+                    valid++;
+                }
+            }
+
+            while (valid == need.size()) {
+
+                char c2 = all[i];
+                if (len > j - i) {
+                    len = j - i;
+                    start = i;
+                }
+
+                if (need.containsKey(c2)) {
+                    if (current.get(c2).equals(need.get(c2))) {
+                        valid--;
+                    }
+                    current.merge(c2, -1, Integer::sum);
+                }
+                i++;
+            }
+        }
+        return (len > s.length()) ? "" : s.substring(start, start + len);
+    }
+
+    //567. Permutation in String
+    public boolean checkInclusion(String t, String s) {
+        Map<Character, Integer> need = new HashMap<>();
+        Map<Character, Integer> current = new HashMap<>();
+        for (char c : t.toCharArray()) {
+            need.merge(c, 1, Integer::sum);
+        }
+        char[] all = s.toCharArray();
+        int i = 0, j = 0;
+        int valid = 0;
+        while (j < s.length()) {
+            char c = all[j];
+            j++;
+            if (need.containsKey(c)) {
+                current.merge(c, 1, Integer::sum);
+                if (current.get(c).equals(need.get(c))) {
+                    valid++;
+                }
+            }
+
+            while (j -i >= t.length()) {
+
+                if (valid == need.size()) {
+                    return true;
+                }
+                char c2 = s.charAt(i);
+                if (need.containsKey(c2)) {
+                    if (current.get(c2).equals(need.get(c2))) {
+                        valid--;
+                    }
+                    current.merge(c2, -1, Integer::sum);
+                }
+                i++;
+            }
+        }
+        return false;
+    }
+
+    //438. Find All Anagrams in a String
+    public List<Integer> findAnagrams(String s, String t) {
+        List<Integer> index = new ArrayList<>();
+        Map<Character, Integer> need = new HashMap<>();
+        Map<Character, Integer> current = new HashMap<>();
+        for (char c : t.toCharArray()) {
+            need.merge(c, 1, Integer::sum);
+        }
+        char[] all = s.toCharArray();
+        int i = 0, j = 0;
+        int valid = 0;
+        while (j < s.length()) {
+            char c = all[j];
+            j++;
+            if (need.containsKey(c)) {
+                current.merge(c, 1, Integer::sum);
+                if (current.get(c).equals(need.get(c))) {
+                    valid++;
+                }
+            }
+
+            while (j -i >= t.length()) {
+
+                if (j - i == t.length() && valid == need.size()) {
+                    index.add(i);
+                }
+                char c2 = s.charAt(i);
+                if (need.containsKey(c2)) {
+                    if (current.get(c2).equals(need.get(c2))) {
+                        valid--;
+                    }
+                    current.merge(c2, -1, Integer::sum);
+                }
+                i++;
+            }
+        }
+        return index;
+    }
+
+    //3. Longest Substring Without Repeating Characters
+    public int lengthOfLongestSubstring(String s) {
+        Set<Character> current = new HashSet<>();
+        char[] all = s.toCharArray();
+        int i = 0, j = 0;
+        int maxLen = 0;
+        while (j < s.length()) {
+            char c = all[j];
+            if (current.contains(c)) {
+                while (true) {
+                    char cc = all[i];
+                    current.remove(cc);
+                    i++;
+                    if (cc == c) {
+                        break;
+                    }
+                }
+            }
+            current.add(c);
+            int len = j - i + 1;
+            maxLen = Math.max(len, maxLen);
+            j++;
+        }
+        return maxLen;
     }
 
     public ListNode insertionSortList(ListNode head) {
