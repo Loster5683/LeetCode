@@ -1,4 +1,4 @@
-package solutions.base;
+package base;
 
 
 

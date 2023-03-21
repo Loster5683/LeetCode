@@ -1,4 +1,4 @@
-package solutions.base;
+package base;
 
 public class ListNode {
     public int val;
