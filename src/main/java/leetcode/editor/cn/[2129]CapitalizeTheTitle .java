@@ -1,6 +1,5 @@
 package leetcode.editor.cn;
 
-import java.util.Arrays;
 
 class CapitalizeTheTitle {
     public static void main(String[] args) {
