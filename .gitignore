@@ -1,1 +1,3 @@
-**/content/*.md
+/src/main/java/leetcode/editor/cn/doc/content
+/src/main/java/leetcode/editor/cn/doc/solution
+/src/main/java/leetcode/editor/cn/doc/submission
