@@ -60,6 +60,9 @@ public class DataStructBuilder {
      */
     public static int[] initIntArray(String value) {
         value = value.replace("[", "").replace("]", "");
+        if (value.length() == 0) {
+            return new int[0];
+        }
         return Arrays.stream(value.trim().split(",")).mapToInt(Integer::parseInt).toArray();
     }
 
@@ -96,7 +99,11 @@ public class DataStructBuilder {
     }
 
     public static int[][] init2DIntArray(String value) {
-        value = value.replace("[[", "").replace("]]", "");
+
+        value = value.substring(1, value.length() - 1);
+        if (value.length() == 0) {
+            return new int[0][0];
+        }
         String[] strings = value.split("],\\[");
         int rows = strings.length;
         int cols = strings[0].split(",").length;
