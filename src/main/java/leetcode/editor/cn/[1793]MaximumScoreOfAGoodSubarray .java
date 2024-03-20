@@ -1,8 +1,5 @@
 package leetcode.editor.cn;
 
-import java.util.ArrayDeque;
-import java.util.Deque;
-import java.util.Queue;
 import java.util.Stack;
 
 class MaximumScoreOfAGoodSubarray{
