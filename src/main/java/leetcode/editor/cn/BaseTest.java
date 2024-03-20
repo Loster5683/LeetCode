@@ -8,7 +8,7 @@ import java.security.InvalidParameterException;
 import java.util.Arrays;
 
 public class BaseTest {
-    public static void baseTest(Object solution, String... params) {
+    public static Object baseTest(Object solution, String... params) {
         String methodName = params[0];
         Method[] methods = solution.getClass().getDeclaredMethods();
         Method method = Arrays.stream(methods).filter(e -> e.getName().equals(methodName)).findAny().get();
@@ -19,7 +19,7 @@ public class BaseTest {
             paramArray[i] = paramObject;
         }
         try {
-            method.invoke(solution, paramArray);
+            return method.invoke(solution, paramArray);
         } catch (IllegalAccessException | InvocationTargetException e) {
             throw new RuntimeException(e);
         }

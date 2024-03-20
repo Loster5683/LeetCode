@@ -1,6 +1,5 @@
 package leetcode.editor.cn;
 
-import java.math.BigDecimal;
 
 class PowxN{
     public static void main(String[] args) {
