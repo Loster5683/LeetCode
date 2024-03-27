@@ -63,7 +63,7 @@ public class DataStructBuilder {
         if (value.length() == 0) {
             return new int[0];
         }
-        return Arrays.stream(value.trim().split(",")).mapToInt(Integer::parseInt).toArray();
+        return Arrays.stream(value.trim().split(",")).map(String::trim).mapToInt(Integer::parseInt).toArray();
     }
 
     public static String[] initStringArray(String nodes) {
@@ -104,7 +104,8 @@ public class DataStructBuilder {
         if (value.length() == 0) {
             return new int[0][0];
         }
-        String[] strings = value.split("],\\[");
+        String partner = value.contains("],\\[") ? "],\\[" : "], \\[";
+        String[] strings = value.split(partner);
         int rows = strings.length;
         int cols = strings[0].split(",").length;
         int[][] result = new int[rows][cols];
