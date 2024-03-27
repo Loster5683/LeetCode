@@ -104,7 +104,7 @@ public class DataStructBuilder {
         if (value.length() == 0) {
             return new int[0][0];
         }
-        String partner = value.contains("],\\[") ? "],\\[" : "], \\[";
+        String partner = value.contains("],[") ? "],\\[" : "], \\[";
         String[] strings = value.split(partner);
         int rows = strings.length;
         int cols = strings[0].split(",").length;
