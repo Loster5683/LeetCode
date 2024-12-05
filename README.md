@@ -38,10 +38,11 @@ package leetcode.editor.cn;
 
 class $!velocityTool.camelCaseName(${question.titleSlug}){
     public static void main(String[] args) {
-        $!velocityTool.camelCaseName(${question.titleSlug}) obj = new $!velocityTool.camelCaseName(${question.titleSlug})();
-        Solution solution = new obj.Solution();
+        Solution solution = new $!velocityTool.camelCaseName(${question.titleSlug})
+            .Solution();
         BaseTest.baseTest(solution, "");
     }
+    static
 ${question.code}
 }
 ```
