@@ -1,6 +1,6 @@
 package leetcode.editor.cn;
 
-import javafx.util.Pair;
+import java.util.AbstractMap;
 
 import java.util.*;
 
@@ -13,7 +13,7 @@ static
 //leetcode submit region begin(Prohibit modification and deletion)
 class Solution {
 
-    List<Pair<Integer, Integer>> sub = new ArrayList<>();
+    List<AbstractMap.SimpleEntry<Integer, Integer>> sub = new ArrayList<>();
     public int countWays(int[][] ranges) {
 
         //Ì°ÐÄ

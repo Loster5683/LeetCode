@@ -1,6 +1,6 @@
 package leetcode.editor.cn;
 
-import javafx.util.Pair;
+import java.util.AbstractMap;
 
 import java.util.*;
 
@@ -18,16 +18,16 @@ class Solution {
         int m = grid.length;
         int n = grid[0].length;
         int f = 0;
-        PriorityQueue<Pair<Integer, Integer>> rowQueue = new PriorityQueue<>(Comparator.comparingInt(Pair::getKey));
-        PriorityQueue<Pair<Integer, Integer>>[] colQueues = new PriorityQueue[n];
-        Arrays.setAll(colQueues, i -> new PriorityQueue<Pair<Integer, Integer>>(Comparator.comparingInt(Pair::getKey)));
+        PriorityQueue<AbstractMap.SimpleEntry<Integer, Integer>> rowQueue = new PriorityQueue<>(Comparator.comparingInt(AbstractMap.SimpleEntry::getKey));
+        PriorityQueue<AbstractMap.SimpleEntry<Integer, Integer>>[] colQueues = new PriorityQueue[n];
+        Arrays.setAll(colQueues, i -> new PriorityQueue<AbstractMap.SimpleEntry<Integer, Integer>>(Comparator.comparingInt(AbstractMap.SimpleEntry::getKey)));
         for (int i = 0; i < m; i++) {
             rowQueue.clear();
             for (int j = 0; j < n; j++) {
                 while (!rowQueue.isEmpty() && rowQueue.peek().getValue() < j) {
                     rowQueue.poll();
                 }
-                PriorityQueue<Pair<Integer, Integer>> colQueue = colQueues[j];
+                PriorityQueue<AbstractMap.SimpleEntry<Integer, Integer>> colQueue = colQueues[j];
                 while (!colQueue.isEmpty() && colQueue.peek().getValue() < i) {
                     colQueue.poll();
                 }
@@ -40,8 +40,8 @@ class Solution {
                 }
                 int g = grid[i][j];
                 if (g > 0 && f < Integer.MAX_VALUE) {
-                    rowQueue.offer(new Pair<>(f, j + g));
-                    colQueue.offer(new Pair<>(f, i + g));
+                    rowQueue.offer(new AbstractMap.SimpleEntry<>(f, j + g));
+                    colQueue.offer(new AbstractMap.SimpleEntry<>(f, i + g));
                 }
             }
         }

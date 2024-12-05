@@ -1,6 +1,6 @@
 package leetcode.editor.cn;
 
-import javafx.util.Pair;
+import java.util.AbstractMap;
 
 import java.util.Arrays;
 import java.util.Comparator;
@@ -31,21 +31,21 @@ class Solution {
         int n = nums.length;
 
         Arrays.sort(nums);
-        PriorityQueue<Pair<Long, Integer>> queue = new PriorityQueue<>(Comparator.comparingLong(Pair::getKey));
-        queue.add(new Pair<>(0L, 0));
+        PriorityQueue<AbstractMap.SimpleEntry<Long, Integer>> queue = new PriorityQueue<>(Comparator.comparingLong(AbstractMap.SimpleEntry::getKey));
+        queue.add(new AbstractMap.SimpleEntry<>(0L, 0));
         while (--k > 0) {
-            Pair<Long, Integer> pair = queue.poll();
+            AbstractMap.SimpleEntry<Long, Integer> pair = queue.poll();
             long value = pair.getKey();
             int index = pair.getValue();
 
             if (index < n) {
 
                 //下一个最小的序列只会是加上左子树节点或者替换为右节点
-                queue.offer(new Pair<>(value + nums[index], index + 1));
+                queue.offer(new AbstractMap.SimpleEntry<>(value + nums[index], index + 1));
 
                 //[0,0] 初始节点没有右节点
                 if (index > 0) {
-                    queue.offer(new Pair<>(value + nums[index] - nums[index - 1], index + 1));
+                    queue.offer(new AbstractMap.SimpleEntry<>(value + nums[index] - nums[index - 1], index + 1));
                 }
             }
         }

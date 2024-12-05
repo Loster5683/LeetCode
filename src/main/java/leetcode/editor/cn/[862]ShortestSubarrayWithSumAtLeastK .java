@@ -1,5 +1,5 @@
 package leetcode.editor.cn;
-import javafx.util.Pair;
+import java.util.AbstractMap;
 
 import java.util.ArrayDeque;
 import java.util.Deque;
@@ -21,8 +21,8 @@ class ShortestSubarrayWithSumAtLeastK{
                 }
             }
             int minLen = nums.length + 1;
-            Deque<Pair<Integer, Long>> deque = new ArrayDeque<>();
-            deque.add(new Pair<>(-1, 0L));
+            Deque<AbstractMap.SimpleEntry<Integer, Long>> deque = new ArrayDeque<>();
+            deque.add(new AbstractMap.SimpleEntry<>(-1, 0L));
             for (int i = 0; i < sums.length; i++) {
 
                 while (!deque.isEmpty() && sums[i] - deque.peekFirst().getValue() >= k) {
@@ -33,7 +33,7 @@ class ShortestSubarrayWithSumAtLeastK{
                     deque.pollLast();
                 }
 
-                deque.addLast(new Pair<>(i, sums[i]));
+                deque.addLast(new AbstractMap.SimpleEntry<>(i, sums[i]));
             }
             return minLen > nums.length ? -1 : minLen;
         }

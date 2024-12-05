@@ -1,6 +1,6 @@
 package leetcode.editor.cn;
 
-import javafx.util.Pair;
+import java.util.AbstractMap;
 
 import java.util.*;
 
@@ -55,11 +55,11 @@ class Solution {
             djsLen[i] = -1;
         }
 
-        Queue<Pair<Integer, Integer>> queue = new PriorityQueue<>(Comparator.comparingInt(Pair::getValue));
+        Queue<AbstractMap.SimpleEntry<Integer, Integer>> queue = new PriorityQueue<>(Comparator.comparingInt(AbstractMap.SimpleEntry::getValue));
 
-        queue.add(new Pair<>(0, 0));
+        queue.add(new AbstractMap.SimpleEntry<>(0, 0));
         while (!queue.isEmpty()) {
-            Pair<Integer, Integer> pair = queue.poll();
+            AbstractMap.SimpleEntry<Integer, Integer> pair = queue.poll();
             int id = pair.getKey();
             int dis = pair.getValue();
             if (djsLen[id] != -1) {
@@ -70,7 +70,7 @@ class Solution {
                 if (djsLen[nextNode] != -1) {
                     continue;
                 }
-                queue.offer(new Pair<>(nextNode, next[id].get(nextNode) + dis));
+                queue.offer(new AbstractMap.SimpleEntry<>(nextNode, next[id].get(nextNode) + dis));
             }
         }
         return djsLen;

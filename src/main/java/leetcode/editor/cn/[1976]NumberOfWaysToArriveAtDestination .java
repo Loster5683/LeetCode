@@ -1,6 +1,8 @@
 package leetcode.editor.cn;
 
-import javafx.util.Pair;
+import java.util.AbstractMap;
+import java.util.HashMap;
+import java.util.Map;
 
 import java.util.*;
 
@@ -32,10 +34,10 @@ class Solution {
         long[] dis = new long[n];
         y[0] = 1;
         Arrays.fill(dis, Long.MAX_VALUE / 2);
-        PriorityQueue<Pair<Integer, Long>> queue = new PriorityQueue<>(Comparator.comparingLong(Pair::getValue));
-        queue.add(new Pair<>(0, 0L));
+        PriorityQueue<AbstractMap.SimpleEntry<Integer, Long>> queue = new PriorityQueue<>(Comparator.comparingLong(AbstractMap.SimpleEntry::getValue));
+        queue.add(new AbstractMap.SimpleEntry<>(0, 0L));
         while (true) {
-            Pair<Integer, Long> pair = queue.poll();
+            AbstractMap.SimpleEntry<Integer, Long> pair = queue.poll();
             int node = pair.getKey();
             long away = pair.getValue();
             if (node == n - 1) {
@@ -49,7 +51,7 @@ class Solution {
                 if (nexDis < dis[next]) {
                     dis[next] = nexDis;
                     y[next] = y[node];
-                    queue.offer(new Pair<>(next, nexDis));
+                    queue.offer(new AbstractMap.SimpleEntry<>(next, nexDis));
                 } else if (nexDis == dis[next]) {
                     y[next] = (y[node] + y[next]) % (1000000000 + 7);
                 }
