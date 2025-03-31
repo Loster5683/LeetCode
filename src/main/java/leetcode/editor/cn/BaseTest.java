@@ -43,6 +43,8 @@ public class BaseTest {
                 return DataStructBuilder.init2DIntArray(param);
             case "double":
                 return Double.parseDouble(param);
+            case "char[][]":
+                return DataStructBuilder.init2DCharArray(param);
             default:
                 throw new InvalidParameterException();
         }
